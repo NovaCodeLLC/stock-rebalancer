@@ -1,0 +1,49 @@
+<mat-horizontal-stepper>
+  <mat-step>
+    <ng-template matStepLabel>
+      Website Info
+    </ng-template>
+    <div>
+      <button mat-mini-fab matStepperNext>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>
+      Tell Us About Your Initial Portfolio Info
+    </ng-template>
+    <app-final-portfolio></app-final-portfolio>
+    <div>
+      <button mat-mini-fab matStepperPrevious>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button mat-mini-fab matStepperNext>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>
+      Tell Us About Your Desired Portfolio Info
+    </ng-template>
+    <div>
+      <button mat-mini-fab matStepperPrevious>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button mat-mini-fab matStepperNext>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>
+      How to Rebalance to your desired Portfolio
+    </ng-template>
+    <div>
+      <button mat-mini-fab matStepperPrevious>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
