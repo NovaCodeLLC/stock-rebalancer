@@ -1,3 +1,45 @@
-<p>
-  initial-portfolio works!
-</p>
+<form [formGroup]="stockForm" (ngSubmit)="addNewStock(stockForm)">
+
+  <mat-form-field>
+    <input type="text" matInput placeholder="Stock Symbol" formControlName="symbolCtrl">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="text" matInput placeholder="% of Shares" formControlName="percentCtrl">
+  </mat-form-field>
+
+  <button mat-button mat-mini-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+</form>
+
+<div class="mat-elevation-z8">
+  <mat-table #initTable [dataSource]="dataSourceInit">
+
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef>No.</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.position}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="symbol">
+      <mat-header-cell *matHeaderCellDef>Symbol</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.symbol}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="percentage">
+      <mat-header-cell *matHeaderCellDef>% of Portfolio</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.percentage}}%</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>Select Row</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        <mat-checkbox></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+</div>
