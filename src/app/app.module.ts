@@ -11,7 +11,7 @@ import {SharedServices} from './Components/Services/shared-services.service';
 
 import {appRoutes} from './Routing/app-router.router';
 import {
-  MatButtonModule, MatIconModule, MatInputModule, MatStepperModule,
+  MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatStepperModule,
   MatTableModule
 } from '@angular/material';
 import { InitialPortfolioComponent } from './Components/Forms/initial-portfolio/initial-portfolio.component';
@@ -19,6 +19,7 @@ import { FinalPortfolioComponent } from './Components/Forms/final-portfolio/fina
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {CdkTableModule} from "@angular/cdk/table";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,10 @@ import {CdkTableModule} from "@angular/cdk/table";
     MatStepperModule,
     MatInputModule,
     MatTableModule,
-    CdkTableModule
+    CdkTableModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCheckboxModule
   ],
   providers: [SharedServices ],
   bootstrap: [AppComponent]

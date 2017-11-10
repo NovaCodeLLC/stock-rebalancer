@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/of';
 import {DataSource} from "@angular/cdk/collections";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-final-portfolio',
@@ -11,7 +11,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./final-portfolio.component.css']
 })
 export class FinalPortfolioComponent implements OnInit {
-  displayedColumns = ['position', 'symbol', 'shares'];
+  //variables
+  displayedColumns = ['position', 'symbol', 'shares', 'select'];
   dataSource;
   elementArr : StockEntries[] = [{
     position: 1,
@@ -19,16 +20,31 @@ export class FinalPortfolioComponent implements OnInit {
     shares: 100
   }];
 
-  forms : FormGroup;
+  //user entry form
+  stockForm : FormGroup = new FormGroup({
+    symbolCtrl : new FormControl(''),
+    sharesCtrl : new FormControl('')
+  });
 
-  constructor(private fb : FormBuilder) {}
+  constructor(private changeDetectorRefs: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.dataSource = new TableDataSource(this.elementArr);
   }
 
-  addNewStock()
+  addNewStock( submission : FormGroup ){
+    let converted : number = Number(submission.get('sharesCtrl').value);
+    let num : number = this.elementArr.length;
 
+    num += 1;
+
+    let obj : StockEntries = {position: num, symbol: submission.get('symbolCtrl').value, shares: converted};
+
+    this.elementArr.push(obj);
+    console.log(this.elementArr);
+    this.dataSource = new TableDataSource(this.elementArr);
+    this.stockForm.reset();
+  }
 }
 
 export interface StockEntries{
