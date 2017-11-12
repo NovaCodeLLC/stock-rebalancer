@@ -1,8 +1,9 @@
-<mat-horizontal-stepper>
+<mat-horizontal-stepper #stepper>
   <mat-step>
     <ng-template matStepLabel>
       Website Info
     </ng-template>
+    <app-landing></app-landing>
     <div>
       <button mat-mini-fab matStepperNext>
         <mat-icon>keyboard_arrow_right</mat-icon>
@@ -41,6 +42,7 @@
     <ng-template matStepLabel>
       How to Rebalance to your desired Portfolio
     </ng-template>
+    <app-rebalance-portfolio [stepper]="step"></app-rebalance-portfolio>
     <div>
       <button mat-mini-fab matStepperPrevious>
         <mat-icon>keyboard_arrow_left</mat-icon>

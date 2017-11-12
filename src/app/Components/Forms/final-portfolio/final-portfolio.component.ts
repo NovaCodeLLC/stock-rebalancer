@@ -6,6 +6,7 @@ import {DataSource} from "@angular/cdk/collections";
 import {FormControl, FormGroup} from "@angular/forms";
 import {StockEntries} from "../../../Interfaces/stock-entries.interface";
 import {isNullOrUndefined} from "util";
+import {SharedServices} from "../../Services/shared-services.service";
 
 @Component({
   selector: 'app-final-portfolio',
@@ -14,17 +15,17 @@ import {isNullOrUndefined} from "util";
 })
 export class FinalPortfolioComponent implements OnInit {
   //variables
-  displayedColumns = ['position', 'symbol', 'shares', 'select'];
-  dataSourceFinal;
-  elementArr : StockEntries[] = [];
+  private displayedColumns = ['position', 'symbol', 'shares', 'select'];
+  private dataSourceFinal;
+  private elementArr : StockEntries[] = [];
 
   //user entry form
-  stockForm : FormGroup = new FormGroup({
+  private stockForm : FormGroup = new FormGroup({
     symbolCtrl : new FormControl(''),
     sharesCtrl : new FormControl('')
   });
 
-  constructor() {}
+  constructor(private sharedServices: SharedServices) {}
 
   /**
    * get initial data for table
@@ -39,17 +40,29 @@ export class FinalPortfolioComponent implements OnInit {
    * @param {FormGroup} submission
    */
   addNewStock( submission : FormGroup ){
+    //setup some preliminaries: ie. convert strings to numbers, figure out the current number of array elements, and create a map for later.
     let converted : number = Number(submission.get('sharesCtrl').value);
     let num : number = this.elementArr.length;
+    let initMap : Map< string, StockEntries > = new Map< string, StockEntries>();
 
+    //check if we initialized the position number and correctly label the current position
     if(isNullOrUndefined(num)) num = 0;
     else num += 1;
 
+    //create a stock entry and push it to an array.
     let obj : StockEntries = {position: num, symbol: submission.get('symbolCtrl').value.toUpperCase(), shares: converted};
-
     this.elementArr.push(obj);
-    console.log(this.elementArr);
+
+    //refresh the table
     this.dataSourceFinal = new TableDataSource(this.elementArr);
+
+    //convert our array of stock data to map and store this to a shared service for computation purposes later.
+    this.elementArr.forEach((stockObj : StockEntries) => {
+      initMap.set(stockObj.symbol, stockObj);
+    });
+    this.sharedServices.setFinalPort(initMap);
+
+    //reset the form for the next entry.
     this.stockForm.reset();
   }
 }

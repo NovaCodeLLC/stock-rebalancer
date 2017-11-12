@@ -97,7 +97,7 @@
       true,
       {
         "index-signature": "nospace",
-        "property-declaration": "nospace",
+        "property-declaration": "nospace"
       }
     ],
     "typeof-compare": true,

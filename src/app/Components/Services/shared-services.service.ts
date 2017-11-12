@@ -1,62 +1,45 @@
 import { Injectable } from '@angular/core';
 import {AllowableStates} from "../../Enumerations/allowable-states";
 import {Observable} from "rxjs/Observable";
+import 'rxjs/add/observable/from';
+import {StockEntries} from "../../Interfaces/stock-entries.interface";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class SharedServices {
 
   constructor() { }
 
-  private currentState : AllowableStates = AllowableStates.landingPage;
   private stockData : Object; //todo: change typing to stock market interface
-  private initialPortData : Map<string, Object>; //todo: change to stock model
-  private finalPortData : Map<string, Object>; //todo: change to stock Model
-
+  private initialPortData : Map<string, StockEntries>;
+  private finalPortData : Map<string, StockEntries>;
+  private emptyMap : Map<string, StockEntries> = new Map<string, StockEntries>();
+  private behaviorSubIni : BehaviorSubject<Map<string, StockEntries>> = new BehaviorSubject<Map<string, StockEntries>>(this.emptyMap);
 
   public getStockMarketData(stockSymbols : string[]) { }
 
-  public getInitialPort() : Map<string, Object>{
-    return this.initialPortData;
+  public getInitialPortObs() : Observable< Map<string, StockEntries>>{
+    return this.behaviorSubIni;
   }
 
-  public setInitialPort(initialPort : Map<string, Object>) : void {
+  public getInitialPortMap() : Map<string, StockEntries>{
+    return this.initialPortData
+  }
+
+  public setInitialPort(initialPort : Map<string, StockEntries>) : void {
     this.initialPortData = initialPort;
   }
 
-  public getFinalPort() : Map<string, Object> {
+  public getFinalPortObs() : Observable< Map<string, StockEntries>> {
+    return Observable.from([this.finalPortData]);
+  }
+
+  public getFinalPortMap() : Map<string, StockEntries>{
     return this.finalPortData;
   }
 
-  public setFinalPort(finalPort : Map<string, Object>) : void {
+  public setFinalPort(finalPort : Map<string, StockEntries>) : void {
     this.finalPortData = finalPort;
+    this.behaviorSubIni.next(this.finalPortData);
   }
-
-  public getState() : AllowableStates {
-    return this.currentState;
-  }
-
-  public setState( state : AllowableStates) : void {
-    switch (state) {
-      case AllowableStates.landingPage:
-        this.currentState = AllowableStates.landingPage;
-        break;
-
-      case AllowableStates.initialPortPage:
-        this.currentState = AllowableStates.initialPortPage;
-        break;
-
-      case AllowableStates.finalPortPage:
-        this.currentState = AllowableStates.finalPortPage;
-        break;
-
-      case AllowableStates.rebalancingPage:
-        this.currentState = AllowableStates.rebalancingPage;
-        break;
-
-      default:
-        this.currentState = AllowableStates.landingPage;
-        break;
-    }
-  }
-
 }

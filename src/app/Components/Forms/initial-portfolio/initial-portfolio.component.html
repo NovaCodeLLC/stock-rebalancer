@@ -1,16 +1,32 @@
 <form [formGroup]="stockForm" (ngSubmit)="addNewStock(stockForm)">
 
-  <mat-form-field>
-    <input type="text" matInput placeholder="Stock Symbol" formControlName="symbolCtrl">
-  </mat-form-field>
+  <table>
+    <tr>
+      <td>
+        <mat-form-field color="accent">
+          <input type="text" matInput placeholder="Stock Symbol" formControlName="symbolCtrl">
+        </mat-form-field>
+      </td>
 
-  <mat-form-field>
-    <input type="text" matInput placeholder="% of Shares" formControlName="percentCtrl">
-  </mat-form-field>
+      <td>
+        <mat-form-field color="accent">
+          <input type="text" matInput placeholder="% of Shares" formControlName="percentCtrl">
+        </mat-form-field>
+      </td>
 
-  <button mat-button mat-mini-fab>
-    <mat-icon>add</mat-icon>
-  </button>
+      <td>
+        <button mat-button mat-mini-fab type="submit" color="primary">
+          <mat-icon>add</mat-icon>
+        </button>
+      </td>
+
+      <td>
+        <button mat-button mat-mini-fab type="button" color="primary">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
 </form>
 
 <div class="mat-elevation-z8">
