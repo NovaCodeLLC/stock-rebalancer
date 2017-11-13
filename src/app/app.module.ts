@@ -22,6 +22,7 @@ import {CdkTableModule} from "@angular/cdk/table";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LandingComponent } from './Components/landing/landing.component';
 import { RebalancePortfolioComponent } from './Components/rebalance-portfolio/rebalance-portfolio.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { RebalancePortfolioComponent } from './Components/rebalance-portfolio/re
     CdkTableModule,
     ReactiveFormsModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    HttpClientModule
   ],
   providers: [SharedServices ],
   bootstrap: [AppComponent]

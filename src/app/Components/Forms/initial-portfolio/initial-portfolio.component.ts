@@ -50,7 +50,7 @@ export class InitialPortfolioComponent implements OnInit {
     else num += 1;
 
     //create a stock entry and push it to an array.
-    let obj : StockEntries = {position: num, symbol: submission.get('symbolCtrl').value.toUpperCase(), percentage: converted};
+    let obj : StockEntries = {position: num, symbol: submission.get('symbolCtrl').value.toUpperCase(), percentage: converted };
     this.elementArr.push(obj);
 
     //refresh the table
@@ -60,7 +60,7 @@ export class InitialPortfolioComponent implements OnInit {
     this.elementArr.forEach((stockObj : StockEntries) => {
       initMap.set(stockObj.symbol, stockObj);
     });
-    this.sharedServices.setFinalPort(initMap);
+    this.sharedServices.setInitialPort(initMap);
 
     //reset the form for the next entry.
     this.stockForm.reset();
