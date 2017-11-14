@@ -61,9 +61,11 @@ export class InitialPortfolioComponent implements OnInit {
       initMap.set(stockObj.symbol, stockObj);
     });
     this.sharedServices.setInitialPort(initMap);
+    this.sharedServices.addToCombinedMap(initMap);
 
     //reset the form for the next entry.
     this.stockForm.reset();
+    console.log(this.sharedServices.getCombinedMap());
   }
 }
 

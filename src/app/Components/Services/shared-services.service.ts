@@ -20,8 +20,7 @@ export class SharedServices {
   private stockData : Object; //todo: change typing to stock market interface
   private initialPortData : Map<string, StockEntries>;
   private finalPortData : Map<string, StockEntries>;
-  private emptyMap : Map<string, StockEntries> = new Map<string, StockEntries>();
-  private behaviorSubIni : BehaviorSubject<Map<string, StockEntries>> = new BehaviorSubject<Map<string, StockEntries>>(this.emptyMap);
+  private combinedMap : Array<string> = [];
 
   public getStockMarketData(stockSymbols : string[]) : Observable<{[p:string] : MarketInfo}> {
     let len : number = Math.ceil(stockSymbols.length % 100);
@@ -47,10 +46,6 @@ export class SharedServices {
       })
   }
 
-  public getInitialPortObs() : Observable< Map<string, StockEntries>>{
-    return this.behaviorSubIni;
-  }
-
   public getInitialPortMap() : Map<string, StockEntries>{
     return this.initialPortData
   }
@@ -59,17 +54,12 @@ export class SharedServices {
     this.initialPortData = initialPort;
   }
 
-  public getFinalPortObs() : Observable< Map<string, StockEntries>> {
-    return Observable.from([this.finalPortData]);
-  }
-
   public getFinalPortMap() : Map<string, StockEntries>{
     return this.finalPortData;
   }
 
   public setFinalPort(finalPort : Map<string, StockEntries>) : void {
     this.finalPortData = finalPort;
-    this.behaviorSubIni.next(this.finalPortData);
   }
 
   public setFinalPortShares(key : string, numShare : number) : void {
@@ -79,5 +69,19 @@ export class SharedServices {
   public setInitPortShares
   (key : string, numShare : number) : void {
     this.initialPortData.get(key).shares = numShare;
+  }
+
+  public addToCombinedMap(newSymbol : Map<string, StockEntries>){
+    if(!newSymbol) return;
+
+    Array.from(newSymbol.keys()).forEach((currentKey : string) => {
+      if(this.combinedMap.indexOf(currentKey) === -1) {
+        this.combinedMap.push(currentKey);
+      }
+    });
+  }
+
+  public getCombinedMap() : Array<string> {
+    return this.combinedMap;
   }
 }

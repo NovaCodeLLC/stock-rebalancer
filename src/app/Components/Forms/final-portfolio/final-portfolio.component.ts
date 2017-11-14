@@ -61,9 +61,11 @@ export class FinalPortfolioComponent implements OnInit {
       initMap.set(stockObj.symbol, stockObj);
     });
     this.sharedServices.setFinalPort(initMap);
+    this.sharedServices.addToCombinedMap(initMap);
 
     //reset the form for the next entry.
     this.stockForm.reset();
+    console.log(this.sharedServices.getCombinedMap());
   }
 }
 

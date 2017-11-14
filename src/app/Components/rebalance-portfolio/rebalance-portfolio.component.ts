@@ -1,8 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {SharedServices} from "../Services/shared-services.service";
 import {StockEntries} from "../../Interfaces/stock-entries.interface";
-import {Observable} from "rxjs/Observable";
-import 'rxjs/add/operator/merge';
+import {Observable} from "rxjs/Rx";
 import {MatStepper} from "@angular/material";
 import {MarketInfo} from "../../Interfaces/market-info.interface";
 
@@ -22,30 +21,12 @@ export class RebalancePortfolioComponent implements OnInit, AfterViewInit {
   constructor(private shareServices: SharedServices) { }
 
   ngOnInit() {
-    let iniKeys : Observable< Map<string, StockEntries>> = this.shareServices.getFinalPortObs();
-    let finalKeys : Observable< Map<string, StockEntries>> = this.shareServices.getInitialPortObs();
-
-    iniKeys.merge(finalKeys).subscribe(
-      (maps : Map<string, StockEntries>) => {
-
-        if(!maps) return;
-
-        Array.from(maps.keys()).forEach((currentKey : string) => {
-          if(this.combinedMapSymbols.indexOf(currentKey) === -1) {
-            this.combinedMapSymbols.push(currentKey);
-          }
-        });
-
-        console.log('combinedmap: ', this.combinedMapSymbols);
-      },
-      (err : Error) => {console.log(err)},
-      () => {console.log('[iniKeys emission] Complete ... ')}
-    );
   }
 
   ngAfterViewInit() {
     Observable.from(this.stepper.selectionChange).subscribe( (currentVal) => {
       if(( this.stepper.selectedIndex + 1 ) === 3) this.getMarketDataForPortfolio();
+      this.combinedMapSymbols = this.shareServices.getCombinedMap();
     });
     }
 
