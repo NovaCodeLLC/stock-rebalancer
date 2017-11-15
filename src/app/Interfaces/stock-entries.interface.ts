@@ -6,4 +6,6 @@ export interface StockEntries{
   symbol : string;
   shares? : number;
   percentage? : number;
+  marketPrice? : number;
+  sign? : boolean; //true == positive ; false == negative
 }

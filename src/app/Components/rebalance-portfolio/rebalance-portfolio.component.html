@@ -1,3 +1,32 @@
-<p>
-  rebalance-portfolio works!
-</p>
+<div class="mat-elevation-z8">
+  <mat-table #rebalancedTable [dataSource]="rebalanceDataSrc">
+
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef>No.</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.position}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="symbol">
+      <mat-header-cell *matHeaderCellDef>Symbol</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.symbol}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="shares">
+      <mat-header-cell *matHeaderCellDef>Shares to buy / sell</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.shares}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="marketPrice">
+      <mat-header-cell *matHeaderCellDef>Market Closing Price</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.marketPrice | currency: 'USD' : symbol}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="percentage">
+      <mat-header-cell *matHeaderCellDef>Portfolio Percentage</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.percentage}}%</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
