@@ -71,7 +71,7 @@ export class SharedServices {
     this.initialPortData.get(key).shares = numShare;
   }
 
-  public addToCombinedMap(newSymbol : Map<string, StockEntries>){
+  public addToCombinedMap(newSymbol : Map<string, StockEntries>) : void {
     if(!newSymbol) return;
 
     Array.from(newSymbol.keys()).forEach((currentKey : string) => {
@@ -83,5 +83,11 @@ export class SharedServices {
 
   public getCombinedMap() : Array<string> {
     return this.combinedMap;
+  }
+
+  public removeFromCombinedMap(symbol : string) : void {
+    if(!symbol) return;
+
+    this.combinedMap.splice(this.combinedMap.indexOf(symbol), 1);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/of';
@@ -17,6 +17,7 @@ export class FinalPortfolioComponent implements OnInit {
   //variables
   private displayedColumns = ['position', 'symbol', 'shares', 'select'];
   private dataSourceFinal;
+  private tracker : Map<number, boolean> = new Map<number, boolean>();
   private elementArr : StockEntries[] = [];
 
   //user entry form
@@ -65,6 +66,35 @@ export class FinalPortfolioComponent implements OnInit {
 
     //reset the form for the next entry.
     this.stockForm.reset();
+    console.log(this.sharedServices.getCombinedMap());
+  }
+
+  private markRow(row : StockEntries) : void {
+    if(this.tracker.get( row.position-1)){
+      this.tracker.set(row.position-1, !this.tracker.get(row.position-1));
+    } else {
+      this.tracker.set(row.position-1, true);
+    }
+    console.log(this.tracker);
+  }
+
+  private deleteRows() {
+
+    //convert the elementArr to a Map datatype
+    let elementArrMap : Map<number, StockEntries> = new Map<number, StockEntries>(
+      this.elementArr.map( (i : StockEntries )=> [i.position-1, i] as [number, StockEntries] )
+    );
+
+    //iterate over the marked row keys and remove them from the mapping and from the combined mapping in the sharedservice
+    for(let key of Array.from(this.tracker.keys())) {
+      this.sharedServices.removeFromCombinedMap(elementArrMap.get(key).symbol);
+      elementArrMap.delete(key);
+    }
+
+    this.elementArr = Array.from(elementArrMap.values());
+
+    this.dataSourceFinal = new TableDataSource(this.elementArr);
+    this.tracker.clear();
     console.log(this.sharedServices.getCombinedMap());
   }
 }

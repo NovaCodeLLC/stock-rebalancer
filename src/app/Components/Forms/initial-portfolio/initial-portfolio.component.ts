@@ -6,6 +6,7 @@ import {DataSource} from "@angular/cdk/collections";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/of';
 import {SharedServices} from "../../Services/shared-services.service";
+import {TableDataSource} from "../final-portfolio/final-portfolio.component";
 
 @Component({
   selector: 'app-initial-portfolio',
@@ -17,6 +18,7 @@ export class InitialPortfolioComponent implements OnInit {
   //variables
   private displayedColumns = ['position', 'symbol', 'percentage', 'select'];
   private dataSourceInit;
+  private tracker : Map<number, boolean> = new Map<number, boolean>();
   private elementArr : StockEntries[] = [];
 
   //user entry form
@@ -31,7 +33,7 @@ export class InitialPortfolioComponent implements OnInit {
    * get initial data for table
    */
   ngOnInit() {
-    this.dataSourceInit = new TblDataSource(this.elementArr);
+    this.dataSourceInit = new TableDataSource(this.elementArr);
   }
 
   /**
@@ -54,7 +56,7 @@ export class InitialPortfolioComponent implements OnInit {
     this.elementArr.push(obj);
 
     //refresh the table
-    this.dataSourceInit = new TblDataSource(this.elementArr);
+    this.dataSourceInit = new TableDataSource(this.elementArr);
 
     //convert our array of stock data to map and store this to a shared service for computation purposes later.
     this.elementArr.forEach((stockObj : StockEntries) => {
@@ -67,21 +69,34 @@ export class InitialPortfolioComponent implements OnInit {
     this.stockForm.reset();
     console.log(this.sharedServices.getCombinedMap());
   }
-}
 
-/**
- * Datasource class needed to populate the page's data table.
- */
-export class TblDataSource extends DataSource<any>{
-  private elementArr : Array<StockEntries>;
-
-  constructor(public Arr : Array<StockEntries>){
-    super();
-    this.elementArr = Arr;
+  private markRow(row : StockEntries) : void {
+    if(this.tracker.get( row.position-1)){
+      this.tracker.set(row.position-1, !this.tracker.get(row.position-1));
+    } else {
+      this.tracker.set(row.position-1, true);
+    }
+    console.log(this.tracker);
   }
 
-  connect(): Observable<StockEntries[]> {
-    return Observable.of(this.elementArr)
+  private deleteRows() {
+
+    //convert the elementArr to a Map datatype
+    let elementArrMap : Map<number, StockEntries> = new Map<number, StockEntries>(
+      this.elementArr.map( (i : StockEntries )=> [i.position-1, i] as [number, StockEntries] )
+    );
+
+    //iterate over the marked row keys and remove them from the mapping and from the combined mapping in the sharedservice
+    for(let key of Array.from(this.tracker.keys())) {
+      this.sharedServices.removeFromCombinedMap(elementArrMap.get(key).symbol);
+      elementArrMap.delete(key);
+    }
+
+    this.elementArr = Array.from(elementArrMap.values());
+
+    this.dataSourceInit = new TableDataSource(this.elementArr);
+    this.tracker.clear();
+    console.log(this.sharedServices.getCombinedMap());
   }
-  disconnect() {}
 }
+

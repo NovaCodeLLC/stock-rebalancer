@@ -21,7 +21,7 @@
       </td>
 
       <td>
-        <button mat-button mat-mini-fab type="button" color="primary">
+        <button mat-button mat-mini-fab type="button" color="primary" (click)="deleteRows()">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -50,7 +50,7 @@
     <ng-container matColumnDef="select">
       <mat-header-cell *matHeaderCellDef>Select Row</mat-header-cell>
       <mat-cell *matCellDef="let item">
-        <mat-checkbox></mat-checkbox>
+        <mat-checkbox (click)="markRow(item)"></mat-checkbox>
       </mat-cell>
     </ng-container>
 

@@ -11,7 +11,7 @@
   <button mat-button mat-mini-fab type="submit">
     <mat-icon>add</mat-icon>
   </button>
-  <button mat-button mat-mini-fab type="button">
+  <button mat-button mat-mini-fab type="button" (click)="deleteRows()">
     <mat-icon>delete</mat-icon>
   </button>
 </form>
@@ -37,7 +37,7 @@
     <ng-container matColumnDef="select">
       <mat-header-cell *matHeaderCellDef>Select Row</mat-header-cell>
       <mat-cell *matCellDef="let item">
-        <mat-checkbox></mat-checkbox>
+        <mat-checkbox (click)="markRow(item)"></mat-checkbox>
       </mat-cell>
     </ng-container>
 

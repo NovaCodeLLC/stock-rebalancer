@@ -106,7 +106,7 @@ export class RebalancePortfolioComponent implements OnInit, AfterViewInit {
       let percentage : number = null;
 
       //find position of entry
-      if(this.elementArr.length < 1 || isNullOrUndefined(this.elementArr)) pos = 0;
+      if(this.elementArr.length < 1 || isNullOrUndefined(this.elementArr)) pos = 1;
       else pos++;
 
       if(iniPort.get(stockSymbol)) percentage = iniPort.get(stockSymbol).percentage;
