@@ -84,6 +84,7 @@ export class RebalancePortfolioComponent implements OnInit, AfterViewInit {
     this.shareServices.getCombinedMap().forEach( (stockSymbol : string) => {
       //reset
       shareChange = 0;
+      this.elementArr = [];
 
       //if symbol shows up in only final port, all stocks were bought.  If symbol only shows up in initial port, all stocks were sold
       //if symbol shows up in both ports, calculate the difference to determine if they were bought of sold (negative number is sold, positive is bought)
